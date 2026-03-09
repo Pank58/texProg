@@ -1,18 +1,37 @@
+using Magazine.Core.Services;
+using Magazine.WebApi.Services;
+using Microsoft.EntityFrameworkCore;
+using Magazine.WebApi.Data; 
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// поддержка контроллеров
+builder.Services.AddControllers();
+
+// регистрация сервисов ".
+builder.Services.AddScoped<IProductService, ProductService>();
+
+// регистрация Базы Данных 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+     options.UseSqlite("Data Source=magazine.db"));
+
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Настройка конвейера запросов
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
+
+
+
+app.MapControllers();
+
 
 var summaries = new[]
 {
