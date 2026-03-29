@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // регистрация сервисов ".
-builder.Services.AddScoped<IProductService, ProductService>();
+// поменялся тип
+builder.Services.AddSingleton<IProductService, ProductService>();
 
 // регистрация Базы Данных 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
